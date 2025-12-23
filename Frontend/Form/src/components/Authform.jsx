@@ -13,7 +13,24 @@ export default function Authform({type, onSubmit}){
 
         const handleSubmit = (e) => {
             e.preventDefault();
+            if (!isLogin && password !== confirmPassword) {
+               alert("Passwords do not match!");
+               return;
+            }
             // onSubmit({name, email, password, confirmPassword})
+            console.log("onSubmit prop received:", onSubmit);
+
+            if (typeof onSubmit === 'function') {
+            onSubmit(email, password, name)
+            } else {
+        // Optional: Helpful debug message if the prop is missing
+            console.error("AuthForm rendered without an 'onSubmit' function prop!"); 
+            }
+
+            setName('')
+            setEmail('')
+            setPassword('')
+            setConfirmPassword('')
         }
 
         
@@ -85,9 +102,17 @@ export default function Authform({type, onSubmit}){
                     />
                 </div>}
 
+                {isLogin && (
+                <div className="text-right mb-4">
+                <Link to="/forgot-password" className="text-blue-500 font-bold text-lg">
+                Forgot Password?
+               </Link>
+               </div>
+            )}
+
                 <button type="submit" className="bg-blue-600 w-full rounded m-2 p-2 hover:bg-blue-700 hover:cursor-pointer">{isLogin ? "Log In" : "Sign Up"}</button>
-                {isSignup && <p>Already have an account? <Link className="text-blue-900" to='/login'>Login</Link></p>}
-                {isLogin && <p>Don't have an account? <Link className="text-blue-900" to='/signup'>Register</Link></p>}
+                {isSignup && <p>Already have an account? <Link className="text-blue-500 font-bold" to='/login'>Login</Link></p>}
+                {isLogin && <p>Don't have an account? <Link className="text-blue-500 font-bold" to='/signup'>Register</Link></p>}
             </form>
             </div>
         </div>
