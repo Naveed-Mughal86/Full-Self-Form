@@ -23,7 +23,8 @@ export default function Signup(){
             }
 
             if(data.session){
-                localStorage.setItem('supabase_access_token', data.session.access_token)
+                localStorage.setItem('supabase_access_token', data.session?.access_token)
+                localStorage.setItem('currentUser', JSON.stringify(data.user));
                 setFeedback("SignUp successful")
                 navigate('/dashboard')
             }

@@ -12,9 +12,9 @@ export default function ResetPassword() {
   const [message, setMessage] = useState("Please enter your new password");
   const navigate = useNavigate();
 
-  const submit = async (password) => {
+  const submit = async (e) => {
   
-    // e.preventDefault();
+    e.preventDefault();
     setMessage("Processing...")
 
     if (password !== confirmPassword) {

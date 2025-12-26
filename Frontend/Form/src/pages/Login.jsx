@@ -1,7 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import Authform from "../components/Authform";
 
 export default function Login(){
 
+    const navigate = useNavigate();
     const handleSignIn = async (email, password) => {
 
             const response = await fetch('http://localhost:3000/auth/signin',{
@@ -11,16 +13,21 @@ export default function Login(){
             });
             const data = await response.json();
 
-             if(response.ok){
-            localStorage.setItem('accessToken', data.session.access_token)
+             if(response.ok && data.accessToken){
+            localStorage.removeItem('accessToken')
+            localStorage.removeItem('currentUser')
+
+            localStorage.setItem('accessToken', data.accessToken);
+            localStorage.setItem('currentUser', JSON.stringify(data.user))
+
             alert("Login Successful!")
-            navigate("/dashboard")
+            navigate('/dashboard',{replace:true});
             } else {
-            console.error(data.message);
+            alert(data.message || "Login Failed");
         }
        
             
-        }
+    }
     
 
     return (
